@@ -8,15 +8,33 @@
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>HelpGPT</h1>
-    <p>Get help with your prompts!</p>
-    <input id="input" placeholder="Paste your prompt here..."></input>
-    <ul>
-        <li>Name your programming lang and framework.</li>
-        <li></li>
-        <li></li>
-    </ul>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <ul>
 
+        </ul>
+    </div>
+    
+    <!-- Toggle button -->
+    
+    <!-- Main content -->
+    <div class="content" id="content">
+        <div class="section-1">
+            <button class="toggle-btn" id="toggleBtn">☰</button>
+            <h3>HelpGPT</h3>
+        </div>
+        
+        <div class="Question-area">
+            <h1>What prompt can i help you with?</h1>
+            <input id="input" placeholder="Paste your prompt here..."></input>
+            <ul>
+                <li>Name your programming lang and framework.</li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
     <div id="output"></div>
+    
 </body>
 </html>

@@ -13,3 +13,13 @@ getData('prompt_fragments').then(data => {
         output.appendChild(div);
     });
 });
+
+const sidebar = document.getElementById('sidebar');
+const toggleBtn = document.getElementById('toggleBtn');
+const content = document.getElementById('content');
+
+toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+    content.classList.toggle('collapsed');
+    toggleBtn.classList.toggle('collapsed');
+});
