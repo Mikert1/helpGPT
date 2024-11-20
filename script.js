@@ -15,11 +15,24 @@ getData('prompt_fragments').then(data => {
 });
 
 const sidebar = document.getElementById('sidebar');
-const toggleBtn = document.getElementById('toggleBtn');
+const insideToggleBtn = document.getElementById('insideToggleBtn');
+const outsideToggleBtn = document.getElementById('outsideToggleBtn');
 const content = document.getElementById('content');
 
-toggleBtn.addEventListener('click', () => {
-    sidebar.classList.toggle('hidden');
-    content.classList.toggle('collapsed');
-    toggleBtn.classList.toggle('collapsed');
-});
+// Function to show the sidebar
+function showSidebar() {
+    sidebar.classList.remove('hidden');
+    content.classList.remove('collapsed');
+    outsideToggleBtn.classList.remove('visible'); // Hide the outside button
+}
+
+// Function to hide the sidebar
+function hideSidebar() {
+    sidebar.classList.add('hidden');
+    content.classList.add('collapsed');
+    outsideToggleBtn.classList.add('visible'); // Show the outside button
+}
+
+// Event listeners for both buttons
+insideToggleBtn.addEventListener('click', hideSidebar);
+outsideToggleBtn.addEventListener('click', showSidebar);
