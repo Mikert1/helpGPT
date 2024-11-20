@@ -14,6 +14,28 @@ getData('prompt_fragments').then(data => {
     });
 });
 
+async function postData(data) {
+    const response = await fetch('http://127.0.0.1:8000/prompt_fragments/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+}
+
+const newData = {
+    author_id: 1,
+    content: "Sample content",
+    description: "Sample description"
+};
+
+postData(newData).then(response => {
+    console.log('Data posted:', response);
+}).catch(error => {
+    console.error('Error posting data:', error);
+});
 
 const sidebar = document.getElementById('sidebar');
 const insideToggleBtn = document.getElementById('insideToggleBtn');
@@ -63,12 +85,15 @@ fetch("languages.json")
     });
 const textarea = document.getElementById('input');
 const outputCheck = document.getElementById('outputCheck');
+const check1 = document.getElementById('check-1');
 
 textarea.addEventListener('input', (event) => {
     const currentText = event.target.value.toLowerCase();
     if (containsLanguage(currentText, language.languages)) {
         outputCheck.innerHTML = 'Language detected';
+        check1.style.borderColor = 'green';
     } else {
         outputCheck.innerHTML = 'No language detected';
+        check1.style.borderColor = 'red';
     }
 });

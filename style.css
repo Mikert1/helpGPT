@@ -192,14 +192,14 @@ button#outsideToggleBtn.visible {
     flex-direction: column;
 }
 
-.check-1 h4 {
+#check-1 h4 {
     color: #929191;
     font-size: 15px;
     margin: 10px;
 
 }
 
-.check-1 {
+#check-1 {
     display: flex;
     flex-direction: row;
     border-radius: 20px;
