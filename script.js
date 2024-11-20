@@ -23,3 +23,36 @@ toggleBtn.addEventListener('click', () => {
     content.classList.toggle('collapsed');
     toggleBtn.classList.toggle('collapsed');
 });
+
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function containsLanguage(str, languages) {
+    const validLanguages = languages
+        .filter(lang => lang && typeof lang === 'string')
+        .map(lang => escapeRegex(lang));
+
+    
+    const pattern = new RegExp(`\\b(${validLanguages.join('|')})\\b`, 'i');
+    return pattern.test(str);
+}
+
+let language = {};
+fetch("languages.json")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        language = data;
+    });
+const textarea = document.getElementById('input');
+const outputCheck = document.getElementById('outputCheck');
+
+textarea.addEventListener('input', (event) => {
+    const currentText = event.target.value.toLowerCase();
+    if (containsLanguage(currentText, language.languages)) {
+        outputCheck.innerHTML = 'Language detected';
+    } else {
+        outputCheck.innerHTML = 'No language detected';
+    }
+});
