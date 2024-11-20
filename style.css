@@ -75,9 +75,8 @@ body {
 }
 
 .name.left {
-    margin-left: 0%;
+    margin-left: 0px;
     transform: translateX(-50%);
-
 }
 button#outsideToggleBtn {
     opacity: 0;
@@ -189,10 +188,10 @@ button#outsideToggleBtn.visible {
 
 .checklist {
     display: flex;
-    flex-direction: column;
+    gap: 20px;
 }
 
-.check-1 h4 {
+.checklist h4 {
     color: #929191;
     font-size: 15px;
     margin: 10px;
@@ -202,11 +201,14 @@ button#outsideToggleBtn.visible {
 .check-1 {
     display: flex;
     flex-direction: row;
-    border-radius: 20px;
+    border-radius: 50px;
     border: 2px solid #2F2F2F;
-    ;
     align-items: center;
     justify-content: center;
+
+}
+.check-1 svg {
+    margin-left: 10px;
 }
 
 .section-2 {

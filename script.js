@@ -25,14 +25,14 @@ function showSidebar() {
     sidebar.classList.remove('hidden');
     content.classList.remove('collapsed');
     outsideToggleBtn.classList.remove('visible');
-    namemove.classList.add('left'); // Move back to original position
+    namemove.classList.add('left');
 }
 
 function hideSidebar() {
     sidebar.classList.add('hidden');
     content.classList.add('collapsed');
     outsideToggleBtn.classList.add('visible');
-    namemove.classList.remove('left'); // Smoothly move to the left
+    namemove.classList.remove('left');
 }
 
 
