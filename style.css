@@ -69,6 +69,16 @@ body {
     z-index: 1000;
 }
 
+.name {
+    margin-left: 0;
+    transition: margin 0.3s ease, transform 0.3s ease;
+}
+
+.name.left {
+    margin-left: 0%;
+    transform: translateX(-50%);
+
+}
 button#outsideToggleBtn {
     opacity: 0;
     pointer-events: none;
@@ -79,6 +89,7 @@ button#outsideToggleBtn.visible {
     opacity: 1;
     pointer-events: auto;
 }
+
 .section-1 {
     display: flex;
     color: #B4B4B4;

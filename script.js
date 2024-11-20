@@ -19,22 +19,23 @@ const sidebar = document.getElementById('sidebar');
 const insideToggleBtn = document.getElementById('insideToggleBtn');
 const outsideToggleBtn = document.getElementById('outsideToggleBtn');
 const content = document.getElementById('content');
+const namemove = document.getElementById('name');
 
-// Function to show the sidebar
 function showSidebar() {
     sidebar.classList.remove('hidden');
     content.classList.remove('collapsed');
-    outsideToggleBtn.classList.remove('visible'); // Remove the button
+    outsideToggleBtn.classList.remove('visible');
+    namemove.classList.add('left'); // Move back to original position
 }
 
-// Function to hide the sidebar
 function hideSidebar() {
     sidebar.classList.add('hidden');
     content.classList.add('collapsed');
-    outsideToggleBtn.classList.add('visible'); // Show the button
+    outsideToggleBtn.classList.add('visible');
+    namemove.classList.remove('left'); // Smoothly move to the left
 }
 
-// Event listeners for both buttons
+
 insideToggleBtn.addEventListener('click', hideSidebar);
 outsideToggleBtn.addEventListener('click', showSidebar);
 
