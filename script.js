@@ -15,7 +15,8 @@ getData('prompt_fragments').then(data => {
 });
 
 const sidebar = document.getElementById('sidebar');
-const toggleBtn = document.getElementById('toggleBtn');
+const insideToggleBtn = document.getElementById('insideToggleBtn');
+const outsideToggleBtn = document.getElementById('outsideToggleBtn');
 const content = document.getElementById('content');
 
 toggleBtn.addEventListener('click', () => {
