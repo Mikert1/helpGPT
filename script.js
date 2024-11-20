@@ -19,20 +19,41 @@ const insideToggleBtn = document.getElementById('insideToggleBtn');
 const outsideToggleBtn = document.getElementById('outsideToggleBtn');
 const content = document.getElementById('content');
 
-// Function to show the sidebar
-function showSidebar() {
-    sidebar.classList.remove('hidden');
-    content.classList.remove('collapsed');
-    outsideToggleBtn.classList.remove('visible'); // Hide the outside button
+toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('hidden');
+    content.classList.toggle('collapsed');
+    toggleBtn.classList.toggle('collapsed');
+});
+
+function escapeRegex(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-// Function to hide the sidebar
-function hideSidebar() {
-    sidebar.classList.add('hidden');
-    content.classList.add('collapsed');
-    outsideToggleBtn.classList.add('visible'); // Show the outside button
+function containsLanguage(str, languages) {
+    const validLanguages = languages
+        .filter(lang => lang && typeof lang === 'string')
+        .map(lang => escapeRegex(lang));
+
+    
+    const pattern = new RegExp(`\\b(${validLanguages.join('|')})\\b`, 'i');
+    return pattern.test(str);
 }
 
-// Event listeners for both buttons
-insideToggleBtn.addEventListener('click', hideSidebar);
-outsideToggleBtn.addEventListener('click', showSidebar);
+let language = {};
+fetch("languages.json")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        language = data;
+    });
+const textarea = document.getElementById('input');
+const outputCheck = document.getElementById('outputCheck');
+
+textarea.addEventListener('input', (event) => {
+    const currentText = event.target.value.toLowerCase();
+    if (containsLanguage(currentText, language.languages)) {
+        outputCheck.innerHTML = 'Language detected';
+    } else {
+        outputCheck.innerHTML = 'No language detected';
+    }
+});
