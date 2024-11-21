@@ -12,7 +12,11 @@ getData('prompt_fragments').then(data => {
         const clone = template.content.cloneNode(true);
         const content = clone.querySelector('p');
         const deleteBtn = clone.querySelector('button');
-        content.textContent = miniData.description;
+        const div = clone.querySelector('div');
+        content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) + '...' : miniData.description;
+        div.addEventListener('click', () => {
+            textarea.value = miniData.description;
+        });
         deleteBtn.addEventListener('click', async () => {
         const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
             {
