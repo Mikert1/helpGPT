@@ -48,13 +48,17 @@ function checks() {
 
     if (containsLanguage(currentText, language.languages)) {
         check1.style.borderColor = 'green';
+        check1.querySelector('svg').style.color = 'green';
     } else {
         check1.style.borderColor = 'red';
+        check1.querySelector('svg').style.color = 'red';
     }
     if (currentText.length >= 50) {
         check2.style.borderColor = 'green';
+        check2.querySelector('svg').style.color = 'green';
     } else {
         check2.style.borderColor = 'red';
+        check2.querySelector('svg').style.color = 'red';
     }
 }
 
