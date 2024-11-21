@@ -49,13 +49,17 @@ body {
 .save {
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 1px 10px;
     border-radius: 50px;
     cursor: pointer;
     margin-top: 10px;
     margin-left: 10px;
     display: flex;
     justify-content: space-between;
+    margin: 0%;
+}
+.save:hover {
+    background-color: #2F2F2F;
 }
 .save svg:hover {
     color: #B4B4B4; 
@@ -64,8 +68,8 @@ body {
 .save button {
     color: white;
     border: none;
-    background-color: #171717;
-    padding: 10px 15px;
+    background-color: rgba(0, 0, 0, 0);
+    padding: 1px 15px;
     border-radius: 50px;
     cursor: pointer;
     display: flex;
