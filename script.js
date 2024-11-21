@@ -1,18 +1,29 @@
 async function getData(dataType) {
-    const response = await fetch('http://127.0.0.1:8000/prompt_fragments/');
+    const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
     const data = await response.json();
     return data;
 }
 
 const output = document.getElementById('output');
+const template = document.querySelector('template');
 
 getData('prompt_fragments').then(data => {
     data.forEach(miniData => {
-        const div = document.createElement('div');
-        div.innerHTML = miniData.content;
-        output.appendChild(div);
+        const clone = template.content.cloneNode(true);
+        const content = clone.querySelector('p');
+        const deleteBtn = clone.querySelector('button');
+        content.textContent = miniData.description;
+        deleteBtn.addEventListener('click', async () => {
+        const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
+            {
+                method: 'DELETE'
+            });
+        });
+        output.appendChild(clone);
     });
 });
+
+
 
 
 document.addEventListener('keydown', (event) => {
