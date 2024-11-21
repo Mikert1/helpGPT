@@ -14,6 +14,24 @@ getData('prompt_fragments').then(data => {
     });
 });
 
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'a') {
+        const newData = {
+            author_id: 1,
+            content: "Sample content",
+            description: "Sample description"
+        };
+        postData(newData).then(response => {
+            console.log('Data posted:', response);
+        }).catch(error => {
+            console.error('Error posting data:', error);
+        });
+    } else if (event.key === 'd') {
+        
+    }
+});
+
 async function postData(data) {
     const response = await fetch('http://127.0.0.1:8000/prompt_fragments/', {
         method: 'POST',
@@ -25,17 +43,7 @@ async function postData(data) {
     return response.json();
 }
 
-const newData = {
-    author_id: 1,
-    content: "Sample content",
-    description: "Sample description"
-};
 
-postData(newData).then(response => {
-    console.log('Data posted:', response);
-}).catch(error => {
-    console.error('Error posting data:', error);
-});
 
 const sidebar = document.getElementById('sidebar');
 const insideToggleBtn = document.getElementById('insideToggleBtn');
