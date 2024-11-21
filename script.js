@@ -18,9 +18,9 @@ async function postData(data) {
     const response = await fetch('http://127.0.0.1:8000/prompt_fragments/', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
     });
     return response.json();
 }
@@ -28,7 +28,7 @@ async function postData(data) {
 const newData = {
     author_id: 1,
     content: "Sample content",
-    description: "Sample description"
+    description: "Sample description",
 };
 
 postData(newData).then(response => {
@@ -71,7 +71,7 @@ function containsLanguage(str, languages) {
         .filter(lang => lang && typeof lang === 'string')
         .map(lang => escapeRegex(lang));
 
-    
+
     const pattern = new RegExp(`\\b(${validLanguages.join('|')})\\b`, 'i');
     return pattern.test(str);
 }
@@ -86,6 +86,7 @@ fetch("languages.json")
 const textarea = document.getElementById('input');
 const outputCheck = document.getElementById('outputCheck');
 const check1 = document.getElementById('check-1');
+const check2 = document.getElementById('check-2');
 
 textarea.addEventListener('input', (event) => {
     const currentText = event.target.value.toLowerCase();
@@ -95,5 +96,11 @@ textarea.addEventListener('input', (event) => {
     } else {
         outputCheck.innerHTML = 'No language detected';
         check1.style.borderColor = 'red';
+    }
+    if (currentText.length >= 50) {
+        console.log(`Text length is ${currentText.length} characters.`);
+        check2.style.borderColor = 'green';
+    } else {
+        check2.style.borderColor = 'red';
     }
 });
