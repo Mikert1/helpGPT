@@ -1,7 +1,16 @@
 async function getData(dataType) {
-    const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        output.innerHTML = 'To see the cards, please use docker as described in the README.md.';
+        return null;
+    }
 }
 
 const output = document.getElementById('output');
@@ -15,9 +24,9 @@ function createCards() {
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
             const div = clone.querySelector('div');
-            content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) + '...' : miniData.description;
+            content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) + '...' : miniData.content;
             div.addEventListener('click', () => {
-                textarea.value = miniData.description;
+                textarea.value = miniData.content;
                 checks();
             });
             deleteBtn.addEventListener('click', async () => {
@@ -56,7 +65,6 @@ document.addEventListener('keydown', (event) => {
         const newData = {
             author_id: 1,
             content: "Sample content",
-            description: "Sample description",
         };
         postData(newData).then(response => {
             console.log('Data posted:', response);
@@ -136,8 +144,14 @@ textarea.addEventListener('input', () => {
 
 const submit = document.getElementById('submit-btn');
 submit.addEventListener('click', send);
-function send() {
+async function send() {
     const currentText = textarea.value;
+    data = {
+        author_id: 1,
+        content: currentText,
+    };
+    postData(data)
+    createCards();
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
 }
 
