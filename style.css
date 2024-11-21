@@ -220,6 +220,9 @@ button#outsideToggleBtn.visible {
     background: none;
     border: none;
     cursor: pointer;
+    background-color: #676767;
+    border-radius: 100%;
+    width: 4.5%;
 }
 
 .search-bar button svg {
