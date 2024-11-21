@@ -294,3 +294,66 @@ button#outsideToggleBtn.visible {
     font-size: small;
     color: #B4B4B4;
 }
+
+.container {
+    position: relative;
+    height: 100%;
+}
+
+/* Profile Icon Styles */
+.profile-dropdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    /* Adds space between images */
+}
+
+/* Dropdown Styles (Hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 80%;
+    right: 0;
+    background-color: #2F2F2F;
+    min-width: 600%;
+    z-index: 1;
+    border-radius: 10px;
+    padding: 10px;
+    flex-direction: column;
+    border: solid 0.01px #444444;
+}
+
+.dropdown-content img {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.profile:hover {
+    background-color: #2F2F2F;
+}
+
+.profile h3 {
+    margin-left: 5%;
+    color: #B4B4B4;
+    margin-bottom: 12%;
+}

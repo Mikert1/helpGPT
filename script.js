@@ -140,3 +140,18 @@ function send() {
     const currentText = textarea.value;
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
 }
+
+// JavaScript to handle the dropdown toggle on click (if you want to allow toggling)
+document.querySelector('.profile-dropdown').addEventListener('click', function (e) {
+    const dropdown = this.querySelector('.dropdown-content');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+
+    // Prevent click event from propagating to body to avoid immediate closing when clicking inside dropdown
+    e.stopPropagation();
+});
+
+// Close dropdown if clicked outside
+document.addEventListener('click', function () {
+    const dropdown = document.querySelector('.dropdown-content');
+    dropdown.style.display = 'none';
+});
