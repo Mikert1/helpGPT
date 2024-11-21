@@ -16,6 +16,7 @@ getData('prompt_fragments').then(data => {
         content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) + '...' : miniData.description;
         div.addEventListener('click', () => {
             textarea.value = miniData.description;
+            checks();
         });
         deleteBtn.addEventListener('click', async () => {
         const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
@@ -27,7 +28,21 @@ getData('prompt_fragments').then(data => {
     });
 });
 
-
+function checks() {
+    const currentText = textarea.value.toLowerCase();
+    if (containsLanguage(currentText, language.languages)) {
+        outputCheck.innerHTML = 'Language detected';
+        check1.style.borderColor = 'green';
+    } else {
+        outputCheck.innerHTML = 'No language detected';
+        check1.style.borderColor = 'red';
+    }
+    if (currentText.length >= 50) {
+        check2.style.borderColor = 'green';
+    } else {
+        check2.style.borderColor = 'red';
+    }
+}
 
 
 document.addEventListener('keydown', (event) => {
@@ -111,19 +126,6 @@ const outputCheck = document.getElementById('outputCheck');
 const check1 = document.getElementById('check-1');
 const check2 = document.getElementById('check-2');
 
-textarea.addEventListener('input', (event) => {
-    const currentText = event.target.value.toLowerCase();
-    if (containsLanguage(currentText, language.languages)) {
-        outputCheck.innerHTML = 'Language detected';
-        check1.style.borderColor = 'green';
-    } else {
-        outputCheck.innerHTML = 'No language detected';
-        check1.style.borderColor = 'red';
-    }
-    if (currentText.length >= 50) {
-        console.log(`Text length is ${currentText.length} characters.`);
-        check2.style.borderColor = 'green';
-    } else {
-        check2.style.borderColor = 'red';
-    }
+textarea.addEventListener('input', () => {
+    checks();
 });
