@@ -191,14 +191,14 @@ button#outsideToggleBtn.visible {
     gap: 20px;
 }
 
-.checklist h4 {
+#check-1 h4 {
     color: #929191;
     font-size: 15px;
     margin: 10px;
 
 }
 
-.check-1 {
+#check-1 {
     display: flex;
     flex-direction: row;
     border-radius: 50px;
@@ -210,7 +210,26 @@ button#outsideToggleBtn.visible {
 .check-1 svg {
     margin-left: 10px;
 }
+#check-2 h4 {
+    color: #929191;
+    font-size: 15px;
+    margin: 10px;
 
+}
+
+#check-2 {
+    display: flex;
+    flex-direction: row;
+    border-radius: 50px;
+    border: 2px solid #2F2F2F;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.check-2 svg {
+    margin-left: 10px;
+}
 .section-2 {
     display: flex;
     flex-direction: column;
