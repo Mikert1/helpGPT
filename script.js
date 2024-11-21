@@ -13,16 +13,17 @@ getData('prompt_fragments').then(data => {
         const content = clone.querySelector('p');
         const deleteBtn = clone.querySelector('button');
         const div = clone.querySelector('div');
-        content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) + '...' : miniData.description;
+        content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) +
+            '...' : miniData.description;
         div.addEventListener('click', () => {
             textarea.value = miniData.description;
             checks();
         });
         deleteBtn.addEventListener('click', async () => {
-        const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
-            {
-                method: 'DELETE'
-            });
+            const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
+                {
+                    method: 'DELETE',
+                });
         });
         output.appendChild(clone);
     });
@@ -50,15 +51,13 @@ document.addEventListener('keydown', (event) => {
         const newData = {
             author_id: 1,
             content: "Sample content",
-            description: "Sample description"
+            description: "Sample description",
         };
         postData(newData).then(response => {
             console.log('Data posted:', response);
         }).catch(error => {
             console.error('Error posting data:', error);
         });
-    } else if (event.key === 'd') {
-        
     }
 });
 
@@ -129,3 +128,10 @@ const check2 = document.getElementById('check-2');
 textarea.addEventListener('input', () => {
     checks();
 });
+
+const submit = document.getElementById('submit-btn');
+submit.addEventListener('click', send);
+function send() {
+    const currentText = textarea.value;
+    window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
+}
