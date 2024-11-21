@@ -1,7 +1,16 @@
 async function getData(dataType) {
-    const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        output.innerHTML = 'To see the cards, please use docker as described in the README.md.';
+        return null;
+    }
 }
 
 const output = document.getElementById('output');
