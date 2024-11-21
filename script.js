@@ -15,16 +15,17 @@ function createCards() {
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
             const div = clone.querySelector('div');
-            content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) + '...' : miniData.description;
+            content.textContent = miniData.description.length > 10 ? miniData.description.substring(0, 45) +
+            '...' : miniData.description;
             div.addEventListener('click', () => {
                 textarea.value = miniData.description;
                 checks();
             });
             deleteBtn.addEventListener('click', async () => {
-            const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
-                {
-                    method: 'DELETE'
-                });
+                const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
+                    {
+                        method: 'DELETE',
+                    });
                 createCards();
             });
             output.appendChild(clone);
@@ -35,12 +36,10 @@ createCards();
 
 function checks() {
     const currentText = textarea.value.toLowerCase();
-    
+
     if (containsLanguage(currentText, language.languages)) {
-        outputCheck.innerHTML = 'Language detected';
         check1.style.borderColor = 'green';
     } else {
-        outputCheck.innerHTML = 'No language detected';
         check1.style.borderColor = 'red';
     }
     if (currentText.length >= 50) {
