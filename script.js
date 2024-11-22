@@ -23,9 +23,8 @@ function createCards() {
             const clone = template.content.cloneNode(true);
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
-            const div = clone.querySelector('div');
             content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) + '...' : miniData.content;
-            div.addEventListener('click', () => {
+            content.addEventListener('click', () => {
                 textarea.value = miniData.content;
                 checks();
             });
@@ -150,9 +149,9 @@ async function send() {
         author_id: 1,
         content: currentText,
     };
-    postData(data)
-    createCards();
+    postData(data);
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
+    createCards();
 }
 
 // JavaScript to handle the dropdown toggle on click (if you want to allow toggling)
