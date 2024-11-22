@@ -357,3 +357,18 @@ button#outsideToggleBtn.visible {
     color: #B4B4B4;
     margin-bottom: 12%;
 }
+.warning {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin: 10%;
+    justify-content: center;
+    margin-top: 140%;
+}
+.warning h5 {
+    color: #B4B4B4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
