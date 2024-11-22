@@ -83,14 +83,7 @@ function checks() {
         check1.querySelector('svg').style.color = 'rgb(108, 113, 255)';
         check2.querySelector('svg').style.color = 'rgb(234, 132, 68)';
     }
-    if (count === 1) {
-        score.innerHTML = 'S1';
-    } else if (count === 2) {
-        score.innerText = 'S2';
-    } else {
-        score.innerText = 'S3';
-    }
-    console.log(score);
+    score.innerText = 'S' + count;
 }
 
 document.addEventListener('keydown', (event) => {
@@ -185,6 +178,9 @@ async function send() {
     postData(data);
     createCards();
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
+    setInterval(() => {
+        window.location.reload();
+    }, 500);
 }
 
 // JavaScript to handle the dropdown toggle on click (if you want to allow toggling)
