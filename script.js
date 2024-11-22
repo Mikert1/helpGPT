@@ -1,3 +1,5 @@
+let SelectedID = 1;
+
 async function getData(dataType) {
     try {
         const response = await fetch(`http://127.0.0.1:8000/${dataType}/`);
@@ -15,7 +17,7 @@ async function getData(dataType) {
             d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
         <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
     </svg>
-    <h5>Instal Docker first see README for more info!</h5>
+    <h5>The saved cards only work when docker is installed. For more info and containers read the README.md</h5>
     </div>`;
         return null;
     }
@@ -27,7 +29,12 @@ const template = document.querySelector('template');
 function createCards() {
     output.innerHTML = '';
     getData('prompt_fragments').then(data => {
+        console.log("test")
         data.forEach(miniData => {
+            console.log(miniData.author_id, SelectedID);
+            if (miniData.author_id != SelectedID) {
+                return;
+            }
             const clone = template.content.cloneNode(true);
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
@@ -89,7 +96,7 @@ function checks() {
 document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.key === 'Enter') {
         const newData = {
-            author_id: 1,
+            author_id: SelectedID,
             content: "Sample content",
         };
         postData(newData).then(response => {
@@ -172,29 +179,36 @@ submit.addEventListener('click', send);
 async function send() {
     const currentText = textarea.value;
     const data = {
-        author_id: 1,
+        author_id: SelectedID,
         content: currentText,
     };
     postData(data);
-    createCards();
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
     setInterval(() => {
         window.location.reload();
     }, 500);
 }
 
+const dropdown = document.querySelector('.dropdown-content');
 // JavaScript to handle the dropdown toggle on click (if you want to allow toggling)
 document.querySelector('.profile-dropdown').addEventListener('click', function (e) {
-    const dropdown = this.querySelector('.dropdown-content');
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-
+    
     // Prevent click event from propagating to body to avoid immediate closing when clicking inside dropdown
     e.stopPropagation();
+});
+const options = dropdown.querySelectorAll('.profile')
+options.forEach(option => {
+    option.addEventListener('click', function () {
+        const profileIcon = document.querySelector('.profile-icon');
+        profileIcon.src = option.querySelector('img').src;
+        SelectedID = parseInt(option.id);
+        createCards();
+    });
 });
 
 // Close dropdown if clicked outside
 document.addEventListener('click', function () {
-    const dropdown = document.querySelector('.dropdown-content');
     dropdown.style.display = 'none';
 });
 
@@ -209,3 +223,30 @@ textarea.addEventListener('input', () => {
     // Dynamically adjust the height of the search bar to match the textarea
     searchBar.style.height = texthoi.scrollHeight + 30 + 'px'; // Add padding/margin
 });
+fetch("http://localhost:8000/authors/")
+    .then(response => response.json())
+    .then(existingAuthors => {
+        const existingAuthorNames = existingAuthors.map(author => author.name);
+        const newAuthors = [
+            { name: 'Pjoter' },
+            { name: 'Kawaii Shrek' },
+            { name: 'Pieter' },
+            { name: 'Hugo' },
+            { name: 'Profile' },
+            { name: 'Bert' },
+            { name: 'Henk' },
+        ];
+
+        newAuthors.forEach(async author => {
+            if (!existingAuthorNames.includes(author.name)) {
+                await fetch('http://localhost:8000/authors/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(author),
+                });
+            }
+        });
+    })
+    .catch(error => console.error('Error fetching authors:', error));
