@@ -43,6 +43,8 @@ function createCards() {
 }
 createCards();
 
+const submit = document.getElementById('submit-btn');
+
 function checks() {
     const currentText = textarea.value.toLowerCase();
 
@@ -60,8 +62,12 @@ function checks() {
         check2.style.borderColor = 'red';
         check2.querySelector('svg').style.color = 'red';
     }
+    if (currentText.length >= 1) {
+        submit.style.backgroundColor = 'white';
+    } else {
+        submit.style.backgroundColor = 'grey';
+    }
 }
-
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'a') {
@@ -145,15 +151,14 @@ textarea.addEventListener('input', () => {
     checks();
 });
 
-const submit = document.getElementById('submit-btn');
 submit.addEventListener('click', send);
 async function send() {
     const currentText = textarea.value;
-    data = {
+    const data = {
         author_id: 1,
         content: currentText,
     };
-    postData(data)
+    postData(data);
     createCards();
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
 }
