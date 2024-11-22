@@ -1,4 +1,4 @@
-const SelectedID = 1;
+let SelectedID = 1;
 
 async function getData(dataType) {
     try {
@@ -30,6 +30,10 @@ function createCards() {
     output.innerHTML = '';
     getData('prompt_fragments').then(data => {
         data.forEach(miniData => {
+            console.log(miniData.author_id, SelectedID);
+            if (miniData.author_id != SelectedID) {
+                return;
+            }
             const clone = template.content.cloneNode(true);
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
@@ -98,7 +102,7 @@ function checks() {
 document.addEventListener('keydown', (event) => {
     if (event.ctrlKey && event.key === 'Enter') {
         const newData = {
-            author_id: 1,
+            author_id: SelectedID,
             content: "Sample content",
         };
         postData(newData).then(response => {
@@ -181,7 +185,7 @@ submit.addEventListener('click', send);
 async function send() {
     const currentText = textarea.value;
     const data = {
-        author_id: 1,
+        author_id: SelectedID,
         content: currentText,
     };
     postData(data);
@@ -198,6 +202,8 @@ document.querySelector('.profile-dropdown').addEventListener('click', function (
         option.addEventListener('click', function () {
             const profileIcon = document.querySelector('.profile-icon');
             profileIcon.src = option.querySelector('img').src;
+            SelectedID = option.id;
+            createCards();
         });
     });
 
