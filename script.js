@@ -32,16 +32,17 @@ function createCards() {
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
             const div = clone.querySelector('div');
-            content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) + '...' : miniData.content;
+            content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) +
+            '...' : miniData.content;
             div.addEventListener('click', () => {
                 textarea.value = miniData.content;
                 checks();
             });
             deleteBtn.addEventListener('click', async () => {
-            const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
-                {
-                    method: 'DELETE'
-                });
+                const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
+                    {
+                        method: 'DELETE',
+                    });
                 createCards();
             });
             output.appendChild(clone);
@@ -50,23 +51,31 @@ function createCards() {
 }
 createCards();
 
+const submit = document.getElementById('submit-btn');
+
 function checks() {
     const currentText = textarea.value.toLowerCase();
-    
+
     if (containsLanguage(currentText, language.languages)) {
-        outputCheck.innerHTML = 'Language detected';
         check1.style.borderColor = 'green';
+        check1.querySelector('svg').style.color = 'green';
     } else {
-        outputCheck.innerHTML = 'No language detected';
         check1.style.borderColor = 'red';
+        check1.querySelector('svg').style.color = 'red';
     }
     if (currentText.length >= 50) {
         check2.style.borderColor = 'green';
+        check2.querySelector('svg').style.color = 'green';
     } else {
         check2.style.borderColor = 'red';
+        check2.querySelector('svg').style.color = 'red';
+    }
+    if (currentText.length >= 1) {
+        submit.style.backgroundColor = 'white';
+    } else {
+        submit.style.backgroundColor = 'grey';
     }
 }
-
 
 document.addEventListener('keydown', (event) => {
     if (event.key === 'a') {
@@ -150,15 +159,14 @@ textarea.addEventListener('input', () => {
     checks();
 });
 
-const submit = document.getElementById('submit-btn');
 submit.addEventListener('click', send);
 async function send() {
     const currentText = textarea.value;
-    data = {
+    const data = {
         author_id: 1,
         content: currentText,
     };
-    postData(data)
+    postData(data);
     createCards();
     window.open(`https://chatgpt.com/?q=${encodeURIComponent(currentText)}`, '_blank');
 }
