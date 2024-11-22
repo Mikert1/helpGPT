@@ -29,9 +29,10 @@ const template = document.querySelector('template');
 function createCards() {
     output.innerHTML = '';
     getData('prompt_fragments').then(data => {
+        console.log("test")
         data.forEach(miniData => {
             console.log(miniData.author_id, SelectedID);
-            if (miniData.author_id != SelectedID) {
+            if (miniData.author_id != parseInt(SelectedID)) {
                 return;
             }
             const clone = template.content.cloneNode(true);
@@ -197,18 +198,18 @@ const dropdown = document.querySelector('.dropdown-content');
 // JavaScript to handle the dropdown toggle on click (if you want to allow toggling)
 document.querySelector('.profile-dropdown').addEventListener('click', function (e) {
     dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    const options = dropdown.querySelectorAll('.profile')
-    options.forEach(option => {
-        option.addEventListener('click', function () {
-            const profileIcon = document.querySelector('.profile-icon');
-            profileIcon.src = option.querySelector('img').src;
-            SelectedID = option.id;
-            createCards();
-        });
-    });
-
+    
     // Prevent click event from propagating to body to avoid immediate closing when clicking inside dropdown
     e.stopPropagation();
+});
+const options = dropdown.querySelectorAll('.profile')
+options.forEach(option => {
+    option.addEventListener('click', function () {
+        const profileIcon = document.querySelector('.profile-icon');
+        profileIcon.src = option.querySelector('img').src;
+        SelectedID = option.id;
+        createCards();
+    });
 });
 
 // Close dropdown if clicked outside
