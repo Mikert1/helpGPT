@@ -52,13 +52,16 @@ function createCards() {
 createCards();
 
 const submit = document.getElementById('submit-btn');
+const score = document.getElementById('display-text').querySelector('h2');
 
 function checks() {
+    let count = 3;
     const currentText = textarea.value.toLowerCase();
 
     if (containsLanguage(currentText, language.languages)) {
         check1.style.borderColor = 'green';
         check1.querySelector('svg').style.color = 'green';
+        count--;
     } else {
         check1.style.borderColor = 'red';
         check1.querySelector('svg').style.color = 'red';
@@ -66,6 +69,7 @@ function checks() {
     if (currentText.length >= 50) {
         check2.style.borderColor = 'green';
         check2.querySelector('svg').style.color = 'green';
+        count--;
     } else {
         check2.style.borderColor = 'red';
         check2.querySelector('svg').style.color = 'red';
@@ -74,11 +78,23 @@ function checks() {
         submit.style.backgroundColor = 'white';
     } else {
         submit.style.backgroundColor = 'grey';
+        check1.style.borderColor = '#2F2F2F';
+        check2.style.borderColor = '#2F2F2F';
+        check1.querySelector('svg').style.color = 'rgb(108, 113, 255)';
+        check2.querySelector('svg').style.color = 'rgb(234, 132, 68)';
     }
+    if (count === 1) {
+        score.innerHTML = 'S1';
+    } else if (count === 2) {
+        score.innerText = 'S2';
+    } else {
+        score.innerText = 'S3';
+    }
+    console.log(score);
 }
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'a') {
+    if (event.ctrlKey && event.key === 'Enter') {
         const newData = {
             author_id: 1,
             content: "Sample content",
