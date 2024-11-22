@@ -8,7 +8,15 @@ async function getData(dataType) {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
-        output.innerHTML = 'To see the cards, please use docker as described in the README.md.';
+        output.innerHTML = `<div class="warning">
+        <svg xmlns="http://www.w3.org/2000/svg" width="110" height="110" fill="red" class="bi bi-exclamation-triangle"
+        viewBox="0 0 16 16">
+        <path
+            d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+        <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+    </svg>
+    <h5>Instal Docker first see readme for more info!</h5>
+    </div>`;
         return null;
     }
 }
@@ -23,16 +31,18 @@ function createCards() {
             const clone = template.content.cloneNode(true);
             const content = clone.querySelector('p');
             const deleteBtn = clone.querySelector('button');
-            content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) + '...' : miniData.content;
-            content.addEventListener('click', () => {
+            const div = clone.querySelector('div');
+            content.textContent = miniData.content.length > 10 ? miniData.content.substring(0, 45) +
+            '...' : miniData.content;
+            div.addEventListener('click', () => {
                 textarea.value = miniData.content;
                 checks();
             });
             deleteBtn.addEventListener('click', async () => {
-            const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
-                {
-                    method: 'DELETE'
-                });
+                const response = await fetch(`http://127.0.0.1:8000/prompt_fragments/${miniData.id}/`,
+                    {
+                        method: 'DELETE',
+                    });
                 createCards();
             });
             output.appendChild(clone);
@@ -41,26 +51,50 @@ function createCards() {
 }
 createCards();
 
+const submit = document.getElementById('submit-btn');
+const score = document.getElementById('display-text').querySelector('h2');
+
 function checks() {
+    let count = 3;
     const currentText = textarea.value.toLowerCase();
-    
+
     if (containsLanguage(currentText, language.languages)) {
-        outputCheck.innerHTML = 'Language detected';
         check1.style.borderColor = 'green';
+        check1.querySelector('svg').style.color = 'green';
+        count--;
     } else {
-        outputCheck.innerHTML = 'No language detected';
         check1.style.borderColor = 'red';
+        check1.querySelector('svg').style.color = 'red';
     }
     if (currentText.length >= 50) {
         check2.style.borderColor = 'green';
+        check2.querySelector('svg').style.color = 'green';
+        count--;
     } else {
         check2.style.borderColor = 'red';
+        check2.querySelector('svg').style.color = 'red';
     }
+    if (currentText.length >= 1) {
+        submit.style.backgroundColor = 'white';
+    } else {
+        submit.style.backgroundColor = 'grey';
+        check1.style.borderColor = '#2F2F2F';
+        check2.style.borderColor = '#2F2F2F';
+        check1.querySelector('svg').style.color = 'rgb(108, 113, 255)';
+        check2.querySelector('svg').style.color = 'rgb(234, 132, 68)';
+    }
+    if (count === 1) {
+        score.innerHTML = 'S1';
+    } else if (count === 2) {
+        score.innerText = 'S2';
+    } else {
+        score.innerText = 'S3';
+    }
+    console.log(score);
 }
 
-
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'a') {
+    if (event.ctrlKey && event.key === 'Enter') {
         const newData = {
             author_id: 1,
             content: "Sample content",
@@ -141,11 +175,10 @@ textarea.addEventListener('input', () => {
     checks();
 });
 
-const submit = document.getElementById('submit-btn');
 submit.addEventListener('click', send);
 async function send() {
     const currentText = textarea.value;
-    data = {
+    const data = {
         author_id: 1,
         content: currentText,
     };
