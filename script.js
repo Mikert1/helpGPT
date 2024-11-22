@@ -32,7 +32,7 @@ function createCards() {
         console.log("test")
         data.forEach(miniData => {
             console.log(miniData.author_id, SelectedID);
-            if (miniData.author_id != parseInt(SelectedID)) {
+            if (miniData.author_id != SelectedID) {
                 return;
             }
             const clone = template.content.cloneNode(true);
@@ -207,7 +207,7 @@ options.forEach(option => {
     option.addEventListener('click', function () {
         const profileIcon = document.querySelector('.profile-icon');
         profileIcon.src = option.querySelector('img').src;
-        SelectedID = option.id;
+        SelectedID = parseInt(option.id);
         createCards();
     });
 });
@@ -216,3 +216,31 @@ options.forEach(option => {
 document.addEventListener('click', function () {
     dropdown.style.display = 'none';
 });
+
+fetch("http://localhost:8000/authors/")
+    .then(response => response.json())
+    .then(existingAuthors => {
+        const existingAuthorNames = existingAuthors.map(author => author.name);
+        const newAuthors = [
+            { name: 'Pjoter' },
+            { name: 'Kawaii Shrek' },
+            { name: 'Pieter' },
+            { name: 'Hugo' },
+            { name: 'Profile' },
+            { name: 'Bert' },
+            { name: 'Henk' },
+        ];
+
+        newAuthors.forEach(async author => {
+            if (!existingAuthorNames.includes(author.name)) {
+                await fetch('http://localhost:8000/authors/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(author),
+                });
+            }
+        });
+    })
+    .catch(error => console.error('Error fetching authors:', error));
