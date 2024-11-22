@@ -176,9 +176,24 @@ font-size: 1.875rem;
     outline: none;
     border: none;
 }
-
+.icon-2xl {
+    stroke-width: 1.5;
+    flex-shrink: 0;
+    height: 10%;
+    width:10%;
+}
+.chat {
+width: 95%;
+}
+.send-score {
+    display: flex;
+    align-items: space-between;
+    justify-content: space-between;
+    width: 99%;
+}
 .search-bar {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     width: 700px;
     background-color: #2F2F2F;
@@ -188,6 +203,8 @@ font-size: 1.875rem;
     margin: 10px;
     transition: height 0.2s ease;
     height: 86px;
+    max-height: 23rem;
+
 }
 textarea#input {
     flex: 1;
@@ -203,6 +220,8 @@ textarea#input {
     height: auto;
     margin-left: 2%;
     margin-right: 2%;
+    max-height: 20rem;
+
 }
 textarea#input:focus {
     outline: none;
